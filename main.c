@@ -39,7 +39,8 @@ void cleanup(DXObjects dxObjects) {
 
 }
 
-int main() {
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
     DXObjects init = dx11init();
     cleanup(init);
     return 0;
