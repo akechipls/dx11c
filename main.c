@@ -8,6 +8,35 @@ typedef struct DXObjects {
     IDXGISwapChain *swapChain;
 } DXObjects;
 
+void logError(const char* functionName) {
+    printf("error occured at %s\n", functionName);
+}
+
+HWND CreateWindowInstance(HINSTANCE hInstance, int nShowCmd) {
+    // Create the window
+    HWND hwnd = CreateWindowEx(
+        0,                            // Optional window styles
+        "DXWindowClass",              // Window class
+        "DirectX 11 Window",          // Window text
+        WS_OVERLAPPEDWINDOW,          // Window style
+        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+        NULL,                         // Parent window
+        NULL,                         // Menu
+        hInstance,                   // Instance handle
+        NULL                          // Additional application data
+    );
+
+    if (hwnd == NULL) {
+        logError(__func__);
+        return NULL;  // Return NULL if window creation fails
+    }
+
+    ShowWindow(hwnd, nShowCmd);  // Show the window
+    UpdateWindow(hwnd);          // Update the window
+
+    return hwnd;
+}
+
 DXObjects dx11init(void);
 
 DXObjects dx11init(void) {
@@ -41,6 +70,7 @@ void cleanup(DXObjects dxObjects) {
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+    HWND hwnd = CreateWindowInstance(hInstance, nShowCmd);
     DXObjects init = dx11init();
     cleanup(init);
     return 0;
